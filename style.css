@@ -137,6 +137,30 @@ section h4 {
   line-height: 1.5;
 }
 
+.testimonial {
+  border-left: 4px solid #3a6f7d;
+  padding-left: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.testimonial p {
+  font-size: 0.95rem;
+  margin: 0.8rem 0;
+  line-height: 1.5;
+}
+
+.testimonial-permission {
+  font-style: italic;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.testimonial-attribution {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #666;
+}
+
 .work-areas {
   list-style: none;
   padding: 0;
@@ -160,12 +184,14 @@ section h4 {
 
 .profile-pic {
   max-width: 200px;
-  width: 100%;
-  height: auto;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
-  display: block;
-  margin: 1rem auto 2rem;
+  float: right;
+  margin: 0 0 1rem 1.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
+  object-position: center 30%;
 }
 
 a {

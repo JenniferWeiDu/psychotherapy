@@ -172,7 +172,7 @@
             <div class="testimonial">
           <div class="testimonial-snapshot">
             <p>
-              她在治疗环境中表现出了非凡的技能，运用知识、同情、耐心和专注的参与。我越是与她一起在治疗中花费时间，越是信任她和她的工作。一起，她帮助我解开过去事件的复杂、打结的层次，并将它们与现在的焦虑联系起来，反之亦然。一起，她帮助我解开、揭示，然后释放我生活故事中未被探索的部分。这导致了症状的减少，随后恢复了我的幸福感。
+              她在治疗环境中表现出了非凡的技能，运用知识、同情、耐心和专注的参与。一起，她帮助我解开过去事件的复杂、打结的层次，并将它们与现在的焦虑联系起来，反之亦然，最终导致了我幸福感的恢复。
             </p>
           </div>
           <div class="testimonial-full" style="display: none;">
@@ -195,10 +195,10 @@
               "我授权杜薇使用这些段落用于任何社交宣传目的，涉及她的心理治疗师执业。"
             </p>
           </div>
-          <button class="testimonial-toggle">阅读完整故事</button>
-          <p class="testimonial-attribution">
-            Ric (70)，2021
-          </p>
+          <div class="testimonial-footer">
+            <span class="testimonial-attribution">Ric (70)，2021</span>
+            <button class="testimonial-toggle">完整故事</button>
+          </div>
         </div>
 
         <div class="testimonial">
@@ -224,19 +224,19 @@
               我也见证了Jennifer方法的适应性，随着我们关系的发展，它变得更加针对我的需求。考虑到我的进步，我会推荐Jennifer。
             </p>
           </div>
-          <button class="testimonial-toggle">阅读完整故事</button>
-          <p class="testimonial-attribution">
-            Lily (31)，2026
-          </p>
+          <div class="testimonial-footer">
+            <span class="testimonial-attribution">Lily (31)，2026</span>
+            <button class="testimonial-toggle">完整故事</button>
+          </div>
         </div>
           </div>
           <button class="carousel-nav carousel-next" aria-label="下一个评价">›</button>
         </div>
+        <p class="testimonial-disclaimer"><i>*真实名字未使用。</i></p>
         <div class="carousel-indicators">
           <span class="indicator active" data-index="0"></span>
           <span class="indicator" data-index="1"></span>
         </div>
-        <p><i>*真实名字未使用。</i></p>
       </section>
 
       <section id="faq" class="content-section">
@@ -354,6 +354,14 @@
         </form>
       </section>
     </main>
+  </div>
+
+  <!-- Testimonial Modal -->
+  <div id="testimonialModal" class="testimonial-modal">
+    <div class="modal-content">
+      <button class="modal-close" aria-label="关闭">&times;</button>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
   </div>
 
   <script src="scripts/main.js"></script>

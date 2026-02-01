@@ -671,7 +671,7 @@ section p {
 .profile-pic {
   max-width: 280px;
   width: 280px;
-  height: 280px;
+  height: 400px;
   border-radius: 8px;
   float: right;
   margin: 0 0 2rem 2rem;
@@ -929,7 +929,7 @@ footer {
     margin: 0 auto 2rem auto;
     max-width: 200px;
     width: 200px;
-    height: 200px;
+    height: 360px;
   }
 
   .work-areas {

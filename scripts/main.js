@@ -56,10 +56,57 @@ document.addEventListener('DOMContentLoaded', function() {
   if (container && prevBtn && nextBtn) {
     let currentIndex = 0;
     const testimonials = container.querySelectorAll('.testimonial');
+    let hideTimeout;
+    
+    // Check if device is mobile/touch
+    const isMobile = () => window.innerWidth <= 768;
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     
     function updateButtonVisibility() {
       prevBtn.disabled = currentIndex === 0;
       nextBtn.disabled = currentIndex === testimonials.length - 1;
+    }
+    
+    function showArrows() {
+      if (isMobile()) {
+        prevBtn.classList.add('visible');
+        nextBtn.classList.add('visible');
+        
+        // Clear existing timeout
+        if (hideTimeout) {
+          clearTimeout(hideTimeout);
+        }
+        
+        // Hide arrows after 3 seconds of no interaction
+        hideTimeout = setTimeout(() => {
+          prevBtn.classList.remove('visible');
+          nextBtn.classList.remove('visible');
+        }, 3000);
+      }
+    }
+    
+    function hideArrows() {
+      if (isMobile()) {
+        prevBtn.classList.remove('visible');
+        nextBtn.classList.remove('visible');
+      }
+    }
+    
+    // Touch/click handlers for mobile
+    if (isTouchDevice) {
+      const carousel = document.querySelector('.testimonials-carousel');
+      
+      carousel.addEventListener('touchstart', showArrows);
+      carousel.addEventListener('click', showArrows);
+      
+      // Hide arrows when scrolling
+      container.addEventListener('touchmove', () => {
+        if (hideTimeout) {
+          clearTimeout(hideTimeout);
+        }
+      });
+      
+      container.addEventListener('touchend', showArrows);
     }
     
     function scrollToTestimonial(index) {
@@ -80,12 +127,14 @@ document.addEventListener('DOMContentLoaded', function() {
     prevBtn.addEventListener('click', () => {
       if (currentIndex > 0) {
         scrollToTestimonial(currentIndex - 1);
+        showArrows();
       }
     });
     
     nextBtn.addEventListener('click', () => {
       if (currentIndex < testimonials.length - 1) {
         scrollToTestimonial(currentIndex + 1);
+        showArrows();
       }
     });
     
@@ -114,6 +163,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize button visibility
     updateButtonVisibility();
+    
+    // On window resize, update button state
+    window.addEventListener('resize', () => {
+      if (!isMobile()) {
+        prevBtn.classList.remove('visible');
+        nextBtn.classList.remove('visible');
+      }
+    });
   }
 
   // Highlight active section in navigation

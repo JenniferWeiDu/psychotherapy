@@ -14,78 +14,84 @@
 
 function doPost(e) {
   try {
-    // Parse the incoming JSON data
-    const formData = JSON.parse(e.postData.contents);
+    // Get form data
+    const data = JSON.parse(e.postData.contents);
     
-    // Extract form fields
-    const name = formData.from_name;
-    const email = formData.reply_to;
-    const phone = formData.phone || 'Not provided';
-    const subject = formData.subject;
-    const message = formData.message;
+    // Your email address
+    const myEmail = "jennifer.wei.du@gmail.com";
     
-    // Email 1: Send notification to therapist
-    const therapistEmail = 'jennifer.wei.du@gmail.com';
-    const therapistSubject = 'New Contact Form Submission: ' + subject;
-    const therapistBody = 
-`You have received a new message from your website contact form.
-
-Name: ${name}
-Email: ${email}
-Phone: ${phone}
-Subject: ${subject}
-
-Message:
-${message}
-
----
-This email was sent from your website contact form.`;
+    // Send email to yourself
+    GmailApp.sendEmail(
+      myEmail,
+      "New inquiry: " + data.subject,
+      `You have a new inquiry from your website.\n\n` +
+      `Name: ${data.from_name}\n` +
+      `Email: ${data.reply_to}\n` +
+      `Phone: ${data.phone || 'Not provided'}\n\n` +
+      `Subject: ${data.subject}\n\n` +
+      `Message:\n${data.message}`,
+      {
+        replyTo: data.reply_to
+      }
+    );
     
-    GmailApp.sendEmail(therapistEmail, therapistSubject, therapistBody);
-    
-    // Email 2: Send auto-reply to client
-    const clientSubject = 'Thank you for contacting Wei Du - Counsellor/Psychotherapist';
-    const clientBody = 
-`Dear ${name},
-
-Thank you for reaching out to me. 
-I have received your inquiry and will respond within 24 hours, Monday to Friday.
-
-If you have any urgent concerns, 
-feel free to contact me directly at jennifer.wei.du@gmail.com or 07840 232 467.
-
-Best regards,
-Wei Du
-Registered Counsellor/Psychotherapist`;
-    
-    GmailApp.sendEmail(email, clientSubject, clientBody);
+    // Send auto-reply to client
+    GmailApp.sendEmail(
+      data.reply_to,
+      "Thank you for your inquiry - Jennifer Wei Du Psychotherapy",
+      `Dear ${data.from_name},\n\n` +
+      `Thank you for reaching out to me. I have received your inquiry and will respond within 24 hours, Monday to Friday.\n\n` +
+      `In the meantime, if you have any urgent questions, please feel free to text me on 07840 232 467.\n\n` +
+      `Your message:\n` +
+      `Subject: ${data.subject}\n` +
+      `${data.message}\n\n` +
+      `Best regards,\n` +
+      `Jennifer Wei Du\n` +
+      `UKCP & BACP Registered Psychotherapist\n\n` +
+      `Email: jennifer.wei.du@gmail.com\n` +
+      `Text: 07840 232 467\n` +
+      `Locations: Bayswater (W2), Maida Vale (W9), Online`
+    );
     
     // Optional: Log to Google Sheet
-    // Uncomment the line below if you want to log submissions to a spreadsheet
-    // logToSheet(name, email, phone, subject, message);
+    logToSheet(data);
     
-    return ContentService.createTextOutput(JSON.stringify({
-      status: 'success',
-      message: 'Emails sent successfully'
-    })).setMimeType(ContentService.MimeType.JSON);
-    
+    return ContentService.createTextOutput(JSON.stringify({success: true}))
+      .setMimeType(ContentService.MimeType.JSON);
+      
   } catch (error) {
-    Logger.log('Error: ' + error.toString());
-    return ContentService.createTextOutput(JSON.stringify({
-      status: 'error',
-      message: error.toString()
-    })).setMimeType(ContentService.MimeType.JSON);
+    return ContentService.createTextOutput(JSON.stringify({success: false, error: error.toString()}))
+      .setMimeType(ContentService.MimeType.JSON);
   }
 }
 
-/**
- * Optional function to log form submissions to a Google Sheet
- * Create a spreadsheet and replace SPREADSHEET_ID with your actual ID
- */
-function logToSheet(name, email, phone, subject, message) {
-  const SPREADSHEET_ID = 'YOUR_SPREADSHEET_ID_HERE'; // Replace with your spreadsheet ID
-  const sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getActiveSheet();
-  const timestamp = new Date();
+function logToSheet(data) {
+  // Optional: Create a Google Sheet named "Contact Form Submissions" to log entries
+  const sheetName = "Contact Form Submissions";
+  let sheet;
   
-  sheet.appendRow([timestamp, name, email, phone, subject, message]);
+  try {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    sheet = ss.getSheetByName(sheetName);
+    
+    if (!sheet) {
+      sheet = ss.insertSheet(sheetName);
+      sheet.appendRow(["Timestamp", "Name", "Email", "Phone", "Subject", "Message"]);
+    }
+  } catch (e) {
+    // If no active spreadsheet, create one
+    const ss = SpreadsheetApp.create("Contact Form Submissions");
+    sheet = ss.getSheets()[0];
+    sheet.setName(sheetName);
+    sheet.appendRow(["Timestamp", "Name", "Email", "Phone", "Subject", "Message"]);
+  }
+  
+  sheet.appendRow([
+    new Date(),
+    data.from_name,
+    data.reply_to,
+    data.phone || '',
+    data.subject,
+    data.message
+  ]);
 }

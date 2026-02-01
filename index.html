@@ -138,28 +138,75 @@
       <section id="testimonials" class="content-section">
         <h2>Testimonials</h2>
         
-        <div class="testimonial">
-          <p>
-            I saw Jennifer Du once a week for nine months following a short series of first-ever panic attacks, coupled to a profound growing sense of anxiety, intermingled with a depressive loss of self-confidence.
-          </p>
-          <p>
-            After a long professional career and, at times, a trauma-laden personal life, and following my doctor's advice, I sought therapy to help me.
-          </p>
-          <p>
-            Jennifer Du was my choice, and I found in her a gifted therapist who supported me back to health in a way I did not fully expect and for which I will always be grateful. That is why I do not hesitate to recommend to others her work, methods, manner, and insights which helped me so much.
-          </p>
-          <p>
-            She had an exceptional skill in the therapeutic environment using knowledge, empathy, patience, and focussed engagement. I trusted her and her work the more I spent in therapy with her. Together, she helped me untie complicated, knotted layers of past events and link them to present anxieties and vice versa. Together, she helped me unravel, reveal, and then release unexplored parts of my life story. This led to a reduction of symptoms and then later to a restoration of my well-being.
-          </p>
-          <p>
-            She showed me, furthermore, how to handle worry and anxiety, including how to face new stages in my life. All accomplished in a kind, thoughtful and supportive atmosphere.
-          </p>
-          <p class="testimonial-permission">
-            "I give permission to Jennifer Du to use these paragraphs for any social promotional purpose regarding her practice as a psychotherapist."
-          </p>
+        <div class="testimonials-carousel">
+          <button class="carousel-nav carousel-prev" aria-label="Previous testimonial">‹</button>
+          <div class="testimonials-container">
+            <div class="testimonial">
+          <div class="testimonial-snapshot">
+            <p>
+              She had an exceptional skill in the therapeutic environment using knowledge, empathy, patience, and focussed engagement. I trusted her and her work the more I spent in therapy with her. Together, she helped me untie complicated, knotted layers of past events and link them to present anxieties and vice versa. Together, she helped me unravel, reveal, and then release unexplored parts of my life story. This led to a reduction of symptoms and then later to a restoration of my well-being.
+            </p>
+          </div>
+          <div class="testimonial-full" style="display: none;">
+            <p>
+              I saw Jennifer Du once a week for nine months following a short series of first-ever panic attacks, coupled to a profound growing sense of anxiety, intermingled with a depressive loss of self-confidence.
+            </p>
+            <p>
+              After a long professional career and, at times, a trauma-laden personal life, and following my doctor's advice, I sought therapy to help me.
+            </p>
+            <p>
+              Jennifer Du was my choice, and I found in her a gifted therapist who supported me back to health in a way I did not fully expect and for which I will always be grateful. That is why I do not hesitate to recommend to others her work, methods, manner, and insights which helped me so much.
+            </p>
+            <p>
+              She had an exceptional skill in the therapeutic environment using knowledge, empathy, patience, and focussed engagement. I trusted her and her work the more I spent in therapy with her. Together, she helped me untie complicated, knotted layers of past events and link them to present anxieties and vice versa. Together, she helped me unravel, reveal, and then release unexplored parts of my life story. This led to a reduction of symptoms and then later to a restoration of my well-being.
+            </p>
+            <p>
+              She showed me, furthermore, how to handle worry and anxiety, including how to face new stages in my life. All accomplished in a kind, thoughtful and supportive atmosphere.
+            </p>
+            <p class="testimonial-permission">
+              "I give permission to Jennifer Du to use these paragraphs for any social promotional purpose regarding her practice as a psychotherapist."
+            </p>
+          </div>
+          <button class="testimonial-toggle">Read full story</button>
           <p class="testimonial-attribution">
             Ric (70) - 2021
           </p>
+        </div>
+
+        <div class="testimonial">
+          <div class="testimonial-snapshot">
+            <p>
+              I have had experience with other therapists before Jennifer, I was never able to commit - I used to feel judged, unsafe and stressed talking to therapist. But it was different with Jennifer, she made me feel safe and held. Even in the difficult conversations, I can see and feel the softness and empathy in her intentions.
+            </p>
+          </div>
+          <div class="testimonial-full" style="display: none;">
+            <p>
+              I have been seeing Jennifer since January 2025, when I had my first burn out that led to a total physical and mental collapse.
+            </p>
+            <p>
+              I have had experience with other therapists before Jennifer, I was never able to commit - I used to feel judged, unsafe and stressed talking to therapist. But it was different with Jennifer, she made me feel safe and held. Even in the difficult conversations, I can see and feel the softness and empathy in her intentions.
+            </p>
+            <p>
+              With Jennifer's help, I was able to look further inwards and am trying to rebuild the relationship with myself - Jennifer held a mirror for me to see the real me. It was messy, unfamiliar, but more objective, one step closer to my truth.
+            </p>
+            <p>
+              Jennifer also has fun and innovative ways to convey her messages - she often draws, sometimes diagrams, other times metaphorical images, to visualise and to help me understand her points, it works really well for me personally, I process images far efficiently than I do abstract concepts.
+            </p>
+            <p>
+              I've also witnessed the adaptation in Jennifer's approach, it became more tailored to my needs as our relationship developed. Considering my improvements, I would recommend Jennifer.
+            </p>
+          </div>
+          <button class="testimonial-toggle">Read full story</button>
+          <p class="testimonial-attribution">
+            Lily (31) - 2026
+          </p>
+        </div>
+          </div>
+          <button class="carousel-nav carousel-next" aria-label="Next testimonial">›</button>
+        </div>
+        <div class="carousel-indicators">
+          <span class="indicator active" data-index="0"></span>
+          <span class="indicator" data-index="1"></span>
         </div>
         <p><i>*Real names have not been used.</i></p>
       </section>
@@ -300,6 +347,101 @@
         }
       });
     });
+
+    // Testimonial toggle functionality
+    document.querySelectorAll('.testimonial-toggle').forEach(button => {
+      button.addEventListener('click', function() {
+        const testimonial = this.closest('.testimonial');
+        const snapshot = testimonial.querySelector('.testimonial-snapshot');
+        const fullContent = testimonial.querySelector('.testimonial-full');
+        
+        if (fullContent.style.display === 'none') {
+          // Show full content, hide snapshot
+          snapshot.style.display = 'none';
+          fullContent.style.display = 'block';
+          this.textContent = this.textContent.includes('Read full story') ? 'Show less' : 
+                            this.textContent.includes('阅读完整故事') ? '收起' :
+                            '收起';
+        } else {
+          // Show snapshot, hide full content
+          snapshot.style.display = 'block';
+          fullContent.style.display = 'none';
+          this.textContent = this.textContent.includes('Show less') ? 'Read full story' : 
+                            this.textContent.includes('收起') ? 
+                            (document.documentElement.lang === 'zh-CN' ? '阅读完整故事' : '閱讀完整故事') :
+                            'Read full story';
+        }
+      });
+    });
+
+    // Testimonial carousel functionality
+    const container = document.querySelector('.testimonials-container');
+    const prevBtn = document.querySelector('.carousel-prev');
+    const nextBtn = document.querySelector('.carousel-next');
+    const indicators = document.querySelectorAll('.indicator');
+    
+    if (container && prevBtn && nextBtn) {
+      let currentIndex = 0;
+      const testimonials = container.querySelectorAll('.testimonial');
+      
+      function updateButtonVisibility() {
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex === testimonials.length - 1;
+      }
+      
+      function scrollToTestimonial(index) {
+        if (testimonials[index]) {
+          testimonials[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+          currentIndex = index;
+          updateIndicators();
+          updateButtonVisibility();
+        }
+      }
+      
+      function updateIndicators() {
+        indicators.forEach((indicator, idx) => {
+          indicator.classList.toggle('active', idx === currentIndex);
+        });
+      }
+      
+      prevBtn.addEventListener('click', () => {
+        if (currentIndex > 0) {
+          scrollToTestimonial(currentIndex - 1);
+        }
+      });
+      
+      nextBtn.addEventListener('click', () => {
+        if (currentIndex < testimonials.length - 1) {
+          scrollToTestimonial(currentIndex + 1);
+        }
+      });
+      
+      indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+          scrollToTestimonial(index);
+        });
+      });
+      
+      // Update current index on scroll
+      container.addEventListener('scroll', () => {
+        const scrollLeft = container.scrollLeft;
+        const containerWidth = container.offsetWidth;
+        
+        testimonials.forEach((testimonial, index) => {
+          const testimonialLeft = testimonial.offsetLeft - container.offsetLeft;
+          if (Math.abs(scrollLeft - testimonialLeft) < containerWidth / 2) {
+            if (currentIndex !== index) {
+              currentIndex = index;
+              updateIndicators();
+              updateButtonVisibility();
+            }
+          }
+        });
+      });
+      
+      // Initialize button visibility
+      updateButtonVisibility();
+    }
 
     // Highlight active section in navigation
     window.addEventListener('scroll', () => {

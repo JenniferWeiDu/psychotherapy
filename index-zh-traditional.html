@@ -350,18 +350,15 @@
     </main>
   </div>
 
-  <script>
-    // Smooth scrolling for navigation links
-    document.querySelectorAll('.nav-link, .cta-button').forEach(link => {
-      link.addEventListener('click', function(e) {
-        const href = this.getAttribute('href');
-        if (href && href.startsWith('#')) {
-          e.preventDefault();
-          const target = document.querySelector(href);
-          if (target) {
-            const navHeight = document.querySelector('.nav-menu').offsetHeight;
-            const targetPosition = target.offsetTop - navHeight - 20;
-            window.scrollTo({
+  <script src="scripts/main.js"></script>
+
+  <footer>
+    <p>
+      &copy; 杜薇 • 認證諮詢師/心理治療師
+    </p>
+  </footer>
+</body>
+</html>
               top: targetPosition,
               behavior: 'smooth'
             });

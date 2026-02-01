@@ -42,8 +42,20 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         const target = document.querySelector(href);
         if (target) {
-          const navHeight = document.querySelector('.nav-menu').offsetHeight;
-          const targetPosition = target.offsetTop - navHeight - 20;
+          // On mobile (width <= 768px), nav is hidden in hamburger menu so no offset needed
+          // On desktop, account for sticky nav height
+          const isMobile = window.innerWidth <= 768;
+          let targetPosition;
+          
+          if (isMobile) {
+            // On mobile, scroll directly to the section with just a small offset
+            targetPosition = target.offsetTop - 20;
+          } else {
+            // On desktop, account for the sticky nav menu height
+            const navHeight = document.querySelector('.nav-menu').offsetHeight;
+            targetPosition = target.offsetTop - navHeight - 20;
+          }
+          
           window.scrollTo({
             top: targetPosition,
             behavior: 'smooth'
@@ -53,31 +65,64 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Testimonial toggle functionality
-  document.querySelectorAll('.testimonial-toggle').forEach(button => {
-    button.addEventListener('click', function() {
+  // Testimonial modal functionality
+  const modal = document.getElementById('testimonialModal');
+  const modalBody = document.getElementById('modalBody');
+  const closeBtn = document.querySelector('.modal-close');
+  
+  console.log('Modal element:', modal);
+  console.log('Modal body:', modalBody);
+  console.log('Close button:', closeBtn);
+  
+  const testimonialButtons = document.querySelectorAll('.testimonial-toggle');
+  console.log('Found testimonial buttons:', testimonialButtons.length);
+  
+  testimonialButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+      console.log('Button clicked!');
       const testimonial = this.closest('.testimonial');
-      const snapshot = testimonial.querySelector('.testimonial-snapshot');
       const fullContent = testimonial.querySelector('.testimonial-full');
+      const attribution = testimonial.querySelector('.testimonial-attribution');
       
-      if (fullContent.style.display === 'none') {
-        // Show full content, hide snapshot
-        snapshot.style.display = 'none';
-        fullContent.style.display = 'block';
-        this.textContent = this.textContent.includes('Read full story') ? 'Show less' : 
-                          this.textContent.includes('阅读完整故事') ? '收起' :
-                          this.textContent.includes('閱讀完整故事') ? '收起' :
-                          '收起';
+      console.log('Testimonial:', testimonial);
+      console.log('Full content:', fullContent);
+      
+      // Copy full content to modal
+      if (fullContent && modal && modalBody) {
+        modalBody.innerHTML = fullContent.innerHTML + '<p class="testimonial-attribution" style="margin-top: 2rem; text-align: left;">' + attribution.textContent + '</p>';
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        console.log('Modal should be visible now');
       } else {
-        // Show snapshot, hide full content
-        snapshot.style.display = 'block';
-        fullContent.style.display = 'none';
-        this.textContent = this.textContent.includes('Show less') ? 'Read full story' : 
-                          this.textContent.includes('收起') ? 
-                          (document.documentElement.lang === 'zh-CN' ? '阅读完整故事' : '閱讀完整故事') :
-                          'Read full story';
+        console.log('Missing elements:', {fullContent, modal, modalBody});
       }
     });
+  });
+  
+  // Close modal when clicking X button
+  if (closeBtn) {
+    closeBtn.addEventListener('click', function() {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+  }
+  
+  // Close modal when clicking outside the modal content
+  if (modal) {
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  }
+  
+  // Close modal with Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
   });
 
   // Testimonial carousel functionality

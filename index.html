@@ -150,7 +150,7 @@
             <div class="testimonial">
           <div class="testimonial-snapshot">
             <p>
-              She had an exceptional skill in the therapeutic environment using knowledge, empathy, patience, and focussed engagement. I trusted her and her work the more I spent in therapy with her. Together, she helped me untie complicated, knotted layers of past events and link them to present anxieties and vice versa. Together, she helped me unravel, reveal, and then release unexplored parts of my life story. This led to a reduction of symptoms and then later to a restoration of my well-being.
+              She had an exceptional skill in the therapeutic environment using knowledge, empathy, patience, and focused engagement. Together, she helped me untie complicated, knotted layers of past events and link them to present anxieties and vice versa, leading towards a restoration of my well-being.
             </p>
           </div>
           <div class="testimonial-full" style="display: none;">
@@ -173,10 +173,10 @@
               "I give permission to Jennifer Du to use these paragraphs for any social promotional purpose regarding her practice as a psychotherapist."
             </p>
           </div>
-          <button class="testimonial-toggle">Read full story</button>
-          <p class="testimonial-attribution">
-            Ric (70) - 2021
-          </p>
+          <div class="testimonial-footer">
+            <span class="testimonial-attribution">Ric (70) - 2021</span>
+            <button class="testimonial-toggle">Full Story</button>
+          </div>
         </div>
 
         <div class="testimonial">
@@ -202,19 +202,19 @@
               I've also witnessed the adaptation in Jennifer's approach, it became more tailored to my needs as our relationship developed. Considering my improvements, I would recommend Jennifer.
             </p>
           </div>
-          <button class="testimonial-toggle">Read full story</button>
-          <p class="testimonial-attribution">
-            Lily (31) - 2026
-          </p>
+          <div class="testimonial-footer">
+            <span class="testimonial-attribution">Lily (31) - 2026</span>
+            <button class="testimonial-toggle">Full Story</button>
+          </div>
         </div>
           </div>
           <button class="carousel-nav carousel-next" aria-label="Next testimonial">›</button>
         </div>
+        <p class="testimonial-disclaimer"><i>*Real names have not been used.</i></p>
         <div class="carousel-indicators">
           <span class="indicator active" data-index="0"></span>
           <span class="indicator" data-index="1"></span>
         </div>
-        <p><i>*Real names have not been used.</i></p>
       </section>
 
       <section id="faq" class="content-section">
@@ -332,6 +332,14 @@
         </form>
       </section>
     </main>
+  </div>
+
+  <!-- Testimonial Modal -->
+  <div id="testimonialModal" class="testimonial-modal">
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Close">&times;</button>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
   </div>
 
   <script src="scripts/main.js"></script>

@@ -309,11 +309,12 @@ document.addEventListener('DOMContentLoaded', function() {
         reply_to: form.querySelector('[name="reply_to"]').value,
         phone: form.querySelector('[name="phone"]').value,
         subject: form.querySelector('[name="subject"]').value,
-        message: form.querySelector('[name="message"]').value
+        message: form.querySelector('[name="message"]').value,
+        language: form.querySelector('[name="language"]').value
       };
       
       // Send to Google Apps Script
-      fetch('https://script.google.com/macros/s/AKfycbyFJsHWzGDmfCUakE-hE5N_-zziuCUhI75VdCnIbI4whR8BgRADSjXJUoxuqgZB7vfQuA/exec', {
+      fetch('https://script.google.com/macros/s/AKfycby2WYqRABpQNUM2xyWJvValAoUjXU_B9bD-Qr3Rzva8VOQpkgfOE3_rOzXNQDs4mA69Fw/exec', {
         method: 'POST',
         mode: 'no-cors',
         headers: {

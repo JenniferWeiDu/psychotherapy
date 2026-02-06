@@ -65,192 +65,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Testimonial modal functionality
-  const modal = document.getElementById('testimonialModal');
-  const modalBody = document.getElementById('modalBody');
-  const closeBtn = document.querySelector('.modal-close');
-  
-  console.log('Modal element:', modal);
-  console.log('Modal body:', modalBody);
-  console.log('Close button:', closeBtn);
-  
-  const testimonialButtons = document.querySelectorAll('.testimonial-toggle');
-  console.log('Found testimonial buttons:', testimonialButtons.length);
-  
-  testimonialButtons.forEach(button => {
-    button.addEventListener('click', function(e) {
-      console.log('Button clicked!');
-      const testimonial = this.closest('.testimonial');
-      const fullContent = testimonial.querySelector('.testimonial-full');
-      const attribution = testimonial.querySelector('.testimonial-attribution');
-      
-      console.log('Testimonial:', testimonial);
-      console.log('Full content:', fullContent);
-      
-      // Copy full content to modal
-      if (fullContent && modal && modalBody) {
-        modalBody.innerHTML = fullContent.innerHTML + '<p class="testimonial-attribution" style="margin-top: 2rem; text-align: left;">' + attribution.textContent + '</p>';
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        console.log('Modal should be visible now');
-      } else {
-        console.log('Missing elements:', {fullContent, modal, modalBody});
-      }
-    });
-  });
-  
-  // Close modal when clicking X button
-  if (closeBtn) {
-    closeBtn.addEventListener('click', function() {
-      modal.classList.remove('active');
-      document.body.style.overflow = '';
-    });
-  }
-  
-  // Close modal when clicking outside the modal content
-  if (modal) {
-    modal.addEventListener('click', function(e) {
-      if (e.target === modal) {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-    });
-  }
-  
-  // Close modal with Escape key
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && modal.classList.contains('active')) {
-      modal.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-  });
-
-  // Testimonial carousel functionality
-  const container = document.querySelector('.testimonials-container');
-  const prevBtn = document.querySelector('.carousel-prev');
-  const nextBtn = document.querySelector('.carousel-next');
-  const indicators = document.querySelectorAll('.indicator');
-  
-  if (container && prevBtn && nextBtn) {
-    let currentIndex = 0;
-    const testimonials = container.querySelectorAll('.testimonial');
-    let hideTimeout;
-    
-    // Check if device is mobile/touch
-    const isMobile = () => window.innerWidth <= 768;
-    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    
-    function updateButtonVisibility() {
-      prevBtn.disabled = currentIndex === 0;
-      nextBtn.disabled = currentIndex === testimonials.length - 1;
-    }
-    
-    function showArrows() {
-      if (isMobile()) {
-        prevBtn.classList.add('visible');
-        nextBtn.classList.add('visible');
-        
-        // Clear existing timeout
-        if (hideTimeout) {
-          clearTimeout(hideTimeout);
-        }
-        
-        // Hide arrows after 3 seconds of no interaction
-        hideTimeout = setTimeout(() => {
-          prevBtn.classList.remove('visible');
-          nextBtn.classList.remove('visible');
-        }, 3000);
-      }
-    }
-    
-    function hideArrows() {
-      if (isMobile()) {
-        prevBtn.classList.remove('visible');
-        nextBtn.classList.remove('visible');
-      }
-    }
-    
-    // Touch/click handlers for mobile
-    if (isTouchDevice) {
-      const carousel = document.querySelector('.testimonials-carousel');
-      
-      carousel.addEventListener('touchstart', showArrows);
-      carousel.addEventListener('click', showArrows);
-      
-      // Hide arrows when scrolling
-      container.addEventListener('touchmove', () => {
-        if (hideTimeout) {
-          clearTimeout(hideTimeout);
-        }
-      });
-      
-      container.addEventListener('touchend', showArrows);
-    }
-    
-    function scrollToTestimonial(index) {
-      if (testimonials[index]) {
-        testimonials[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-        currentIndex = index;
-        updateIndicators();
-        updateButtonVisibility();
-      }
-    }
-    
-    function updateIndicators() {
-      indicators.forEach((indicator, idx) => {
-        indicator.classList.toggle('active', idx === currentIndex);
-      });
-    }
-    
-    prevBtn.addEventListener('click', () => {
-      if (currentIndex > 0) {
-        scrollToTestimonial(currentIndex - 1);
-        showArrows();
-      }
-    });
-    
-    nextBtn.addEventListener('click', () => {
-      if (currentIndex < testimonials.length - 1) {
-        scrollToTestimonial(currentIndex + 1);
-        showArrows();
-      }
-    });
-    
-    indicators.forEach((indicator, index) => {
-      indicator.addEventListener('click', () => {
-        scrollToTestimonial(index);
-      });
-    });
-    
-    // Update current index on scroll
-    container.addEventListener('scroll', () => {
-      const scrollLeft = container.scrollLeft;
-      const containerWidth = container.offsetWidth;
-      
-      testimonials.forEach((testimonial, index) => {
-        const testimonialLeft = testimonial.offsetLeft - container.offsetLeft;
-        if (Math.abs(scrollLeft - testimonialLeft) < containerWidth / 2) {
-          if (currentIndex !== index) {
-            currentIndex = index;
-            updateIndicators();
-            updateButtonVisibility();
-          }
-        }
-      });
-    });
-    
-    // Initialize button visibility
-    updateButtonVisibility();
-    
-    // On window resize, update button state
-    window.addEventListener('resize', () => {
-      if (!isMobile()) {
-        prevBtn.classList.remove('visible');
-        nextBtn.classList.remove('visible');
-      }
-    });
-  }
-
   // Highlight active section in navigation
   window.addEventListener('scroll', () => {
     const sections = document.querySelectorAll('.content-section');
@@ -345,6 +159,63 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   }
+
+  // Handle feedback form submission
+  function handleFeedbackForm(formId, statusId) {
+    const feedbackForm = document.getElementById(formId);
+    if (feedbackForm) {
+      feedbackForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const form = this;
+        const submitButton = form.querySelector('button[type="submit"]');
+        const statusDiv = document.getElementById(statusId);
+        
+        submitButton.disabled = true;
+        submitButton.textContent = 'Submitting...';
+        statusDiv.style.display = 'block';
+        statusDiv.textContent = 'Submitting...';
+        statusDiv.style.color = '#8b7a68';
+
+        const formData = {
+          from_name: form.querySelector('[name="from_name"]').value,
+          message: form.querySelector('[name="message"]').value,
+          language: form.querySelector('[name="language"]').value,
+          subject: form.querySelector('[name="subject"]').value
+        };
+
+        fetch('https://script.google.com/macros/s/AKfycby2WYqRABpQNUM2xyWJvValAoUjXU_B9bD-Qr3Rzva8VOQpkgfOE3_rOzXNQDs4mA69Fw/exec', {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData)
+        })
+        .then(() => {
+          statusDiv.textContent = 'Thank you for your feedback!';
+          statusDiv.style.color = '#4a9b5c';
+          form.reset();
+          setTimeout(() => {
+            submitButton.disabled = false;
+            submitButton.textContent = 'Submit Feedback';
+            statusDiv.style.display = 'none';
+          }, 3000);
+        })
+        .catch((error) => {
+          statusDiv.textContent = 'Submission failed. Please try again later.';
+          statusDiv.style.color = '#c74444';
+          submitButton.disabled = false;
+          submitButton.textContent = 'Submit Feedback';
+          console.error('Error:', error);
+        });
+      });
+    }
+  }
+
+  handleFeedbackForm('feedback-form', 'feedback-form-status');
+  handleFeedbackForm('feedback-form-zh-simplified', 'feedback-form-status-zh-simplified');
+  handleFeedbackForm('feedback-form-zh-traditional', 'feedback-form-status-zh-traditional');
 
   // FAQ Accordion functionality
   const faqItems = document.querySelectorAll('.faq-item');

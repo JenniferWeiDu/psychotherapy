@@ -47,9 +47,6 @@
   <header>
     <h1>杜薇</h1>
     <p class="subtitle">心理咨询与心理治疗</p>
-    <div class="header-cta">
-      <a href="#contact" class="cta-button">预约咨询</a>
-    </div>
   </header>
 
   <nav class="nav-menu">
@@ -295,27 +292,31 @@
 
         <form class="contact-form" id="contact-form">
           <input type="hidden" name="language" value="zh-Hans">
-          <div class="form-group">
-            <label for="name">姓名</label>
-            <input type="text" id="name" name="from_name" required>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">姓名</label>
+              <input type="text" id="name" name="from_name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="email">电邮</label>
+              <input type="email" id="email" name="reply_to" required>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label for="email">电子邮箱</label>
-            <input type="email" id="email" name="reply_to" required>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone">电话号码</label>
+              <input type="tel" id="phone" name="phone" required>
+            </div>
+
+            <div class="form-group">
+              <label for="subject">主题</label>
+              <input type="text" id="subject" name="subject" required>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label for="phone">电话号码</label>
-            <input type="tel" id="phone" name="phone">
-          </div>
-
-          <div class="form-group">
-            <label for="subject">主题</label>
-            <input type="text" id="subject" name="subject" required>
-          </div>
-
-          <div class="form-group">
+          <div class="form-group form-full-width">
             <label for="message">留言</label>
             <textarea id="message" name="message" rows="6" required></textarea>
           </div>
